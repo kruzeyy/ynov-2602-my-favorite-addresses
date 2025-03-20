@@ -4,6 +4,11 @@ import { Address } from "../entities/Address";
 import { isAuthorized } from "../utils/isAuthorized";
 import { getUserFromRequest } from "../utils/getUserFromRequest";
 import { getDistance } from "../utils/getDistance";
+import {
+  addressesToCsv,
+  addressesToJson,
+  type ExportAddress,
+} from "../utils/exportFavorites";
 
 const addressesRouter = Router();
 
@@ -38,6 +43,43 @@ addressesRouter.get("/", isAuthorized, async (req, res) => {
   const user = await getUserFromRequest(req);
   const addresses = await Address.findBy({ user: { id: user.id } });
   return res.json({ items: addresses });
+});
+
+function toExportAddress(a: Address): ExportAddress {
+  return {
+    id: a.id,
+    name: a.name,
+    description: a.description ?? undefined,
+    lat: a.lat,
+    lng: a.lng,
+    createdAt:
+      a.createdAt instanceof Date
+        ? a.createdAt.toISOString()
+        : (a.createdAt as string) ?? undefined,
+  };
+}
+
+addressesRouter.get("/export", isAuthorized, async (req, res) => {
+  const format = (req.query.format as string) || "json";
+  const user = await getUserFromRequest(req);
+  const addresses = await Address.findBy({ user: { id: user.id } });
+  const exportList: ExportAddress[] = addresses.map(toExportAddress);
+
+  if (format === "csv") {
+    res.setHeader("Content-Type", "text/csv; charset=utf-8");
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename="favoris.csv"'
+    );
+    return res.send(addressesToCsv(exportList));
+  }
+
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader(
+    "Content-Disposition",
+    'attachment; filename="favoris.json"'
+  );
+  return res.send(addressesToJson(exportList));
 });
 
 addressesRouter.post("/searches", isAuthorized, async (req, res) => {
