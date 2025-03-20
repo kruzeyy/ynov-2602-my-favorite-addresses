@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { login, register, logout, getMe, getAddresses, addAddress } from "./api";
+import { login, register, logout, getMe, getAddresses, addAddress, exportFavorites } from "./api";
 import type { User, Address } from "./types";
 import MapView from "./MapView";
 import "./App.css";
@@ -31,6 +31,8 @@ export default function App() {
   const [addrDesc, setAddrDesc] = useState("");
   const [addAddrError, setAddAddrError] = useState("");
   const [addingAddr, setAddingAddr] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState("");
 
   const loadUser = async () => {
     const me = await getMe();
@@ -95,6 +97,24 @@ export default function App() {
     }
   };
 
+  const handleExport = async (format: "csv" | "json") => {
+    setExportError("");
+    setExporting(true);
+    try {
+      const blob = await exportFavorites(format);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = format === "csv" ? "favoris.csv" : "favoris.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setExportError(err instanceof Error ? err.message : "Erreur export");
+    } finally {
+      setExporting(false);
+    }
+  };
+
   if (user) {
     return (
       <div className="app logged-in">
@@ -155,6 +175,25 @@ export default function App() {
         </div>
         <div className="card addresses-card">
           <h2>Mes adresses favorites ({addresses.length})</h2>
+          <div className="export-actions">
+            <button
+              type="button"
+              className="btn btn-outline"
+              disabled={exporting || addresses.length === 0}
+              onClick={() => handleExport("csv")}
+            >
+              Exporter en CSV
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline"
+              disabled={exporting || addresses.length === 0}
+              onClick={() => handleExport("json")}
+            >
+              Exporter en JSON
+            </button>
+          </div>
+          {exportError && <p className="error">{exportError}</p>}
           {addresses.length === 0 ? (
             <p className="no-addresses">Aucune adresse. Recherche un lieu ci-dessus pour l’ajouter.</p>
           ) : (

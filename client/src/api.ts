@@ -74,3 +74,15 @@ export async function addAddress(
   if (!res.ok) throw new Error(data.message || "Impossible d'ajouter l'adresse");
   return data.item;
 }
+
+export async function exportFavorites(
+  format: "csv" | "json"
+): Promise<Blob> {
+  const token = getToken();
+  if (!token) throw new Error("Non connecté");
+  const res = await fetch(`${API_BASE}/addresses/export?format=${format}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error("Impossible d'exporter les favoris");
+  return res.blob();
+}
