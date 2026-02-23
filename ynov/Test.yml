@@ -5,7 +5,14 @@ info:
 
 http:
   method: GET
-  url: http://localhot:3000/
+  url: http://localhost:3000/api/users/
+  body:
+    type: json
+    data: |-
+      {
+        "email" : "pontus@gmail.com",
+        "password" : "test"
+      }
   auth: inherit
 
 settings:
