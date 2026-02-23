@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "nodemon src/index.ts"
   },
-  "dependencies": {
-    "argon2": "^0.44.0",
+"dependencies": {
+  "cors": "^2.8.5",
+  "argon2": "^0.44.0",
     "axios": "^1.13.5",
-    "better-sqlite3": "^12.6.2",
+    "sql.js": "^1.11.0",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "typeorm": "^0.3.28"
