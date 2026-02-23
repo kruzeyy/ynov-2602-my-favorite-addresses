@@ -1,16 +1,24 @@
+
+import axios from 'axios';
 import { getCountriesStartingWith } from '../getCountrieBySearch';
 
+jest.mock('axios');
+
 describe('getCountriesStartingWith', () => {
+  const mockCountries = {
+    FR: { country: 'France' },
+    FI: { country: 'Finland' },
+    US: { country: 'United States' },
+  };
+
   beforeEach(() => {
-    global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue({
-        data: {
-          FR: { country: 'France' },
-          FI: { country: 'Finland' },
-          US: { country: 'United States' },
-        },
-      }),
-    }) as any;
+    (axios.get as jest.Mock).mockResolvedValue({
+      data: { data: mockCountries },
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should return all countries if srch is empty', async () => {
