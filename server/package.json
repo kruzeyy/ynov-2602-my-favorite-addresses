@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@types/jest": "^30.0.0",
     "argon2": "^0.44.0",
     "axios": "^1.13.5",
     "cors": "^2.8.5",
