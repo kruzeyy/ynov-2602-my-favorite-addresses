@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "test": "jest"
-}
   },
   "dependencies": {
     "argon2": "^0.44.0",
