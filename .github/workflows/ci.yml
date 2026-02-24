@@ -16,7 +16,5 @@ jobs:
         with:
           node-version: 18
 
-      - run: |
-          cd server
-          npm install
-          npm test
+      - name: Install and test (server)
+        run: cd server && npm install && npm test
