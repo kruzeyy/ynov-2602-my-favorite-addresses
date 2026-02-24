@@ -1,4 +1,4 @@
-import { customMap } from '../customMap';
+import { customMap } from "../customMap";
 
 describe('customMap', () => {
   it('should map numbers to their double', () => {

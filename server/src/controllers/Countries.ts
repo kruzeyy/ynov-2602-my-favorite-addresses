@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isAuthorized } from "../utils/isAuthorized";
-import { getCountriesStartingWith } from "../utils/getCountrieBySearch";
+import { getCountriesStartingWith } from "../test/getCountrieBySearch";
 
 const countriesRouter = Router();
 
