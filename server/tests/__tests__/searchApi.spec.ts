@@ -2,6 +2,10 @@ import request from "supertest";
 import app from "../searchApi";
 
 describe("POST /count - intégration", () => {
+  it("accepte uniquement POST /count (GET non géré)", async () => {
+    await request(app).get("/count").expect(404);
+  });
+
   it("retourne le nombre d'occurrences du mot dans le texte", async () => {
     const res = await request(app)
       .post("/count")
