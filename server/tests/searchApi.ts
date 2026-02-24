@@ -1,23 +1,29 @@
-import express, { Request, Response } from "express";
-import { countOccurrences } from "./countOccurrences";
+import express from "express";
 
 const app = express();
 app.use(express.json());
 
-/**
- * POST /count
- * Body: { text: string, word: string }
- * Réponse: { count: number } — nombre d'occurrences du mot dans le texte
- */
-app.post("/count", (req: Request, res: Response) => {
-  const { text, word } = req.body ?? {};
-  if (typeof text !== "string" || typeof word !== "string") {
-    return res.status(400).json({
-      error: "Body must contain 'text' and 'word' as strings",
-    });
+app.post("/count", (req, res) => {
+  const { text, word } = req.body;
+
+  if (
+    typeof text !== "string" ||
+    typeof word !== "string"
+  ) {
+    return res.status(400).send();
   }
-  const count = countOccurrences(text, word);
-  return res.status(200).json({ count });
+
+  const lowerText = text.toLowerCase();
+  const lowerWord = word.toLowerCase();
+  const regex = new RegExp(`\\b${escapeRegex(lowerWord)}\\b`, "g");
+  const matches = lowerText.match(regex);
+  const count = matches ? matches.length : 0;
+
+  return res.json({ count });
 });
+
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 export default app;

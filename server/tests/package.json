@@ -1,0 +1,23 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "Mini API REST (POST /count) + tests",
+  "license": "ISC",
+  "type": "commonjs",
+  "scripts": {
+    "start": "cd .. && npx ts-node tests/server.ts",
+    "dev": "cd .. && npx nodemon tests/server.ts",
+    "test": "cd .. && npm test"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "axios": "^1.13.5"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.2.2",
+    "typescript": "^5.9.3"
+  }
+}

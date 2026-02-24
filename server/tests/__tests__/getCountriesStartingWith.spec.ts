@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCountriesStartingWith } from "../../src/test/getCountrieBySearch";
+import { getCountriesStartingWith } from "../getCountriesStartingWith";
 
 jest.mock("axios");
 
@@ -37,5 +37,13 @@ describe("getCountriesStartingWith", () => {
   it("should return empty array if no country matches", async () => {
     const result = await getCountriesStartingWith("zzz");
     expect(result).toEqual([]);
+  });
+
+  it("should call the countries API once (axios mock)", async () => {
+    await getCountriesStartingWith("fr");
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(axios.get).toHaveBeenCalledWith(
+      "https://api.first.org/data/v1/countries?limit=1000",
+    );
   });
 });

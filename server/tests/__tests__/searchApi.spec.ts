@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../../src/app";
+import app from "../searchApi";
 
 describe("POST /count - intégration", () => {
   it("retourne le nombre d'occurrences du mot dans le texte", async () => {
