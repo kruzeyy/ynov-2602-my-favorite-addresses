@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "./searchApi";
+import app from "../../src/app";
 
 describe("POST /count - intégration", () => {
   it("retourne le nombre d'occurrences du mot dans le texte", async () => {
@@ -31,6 +31,9 @@ describe("POST /count - intégration", () => {
 
   it("répond 400 si text ou word manquent ou ne sont pas des chaînes", async () => {
     await request(app).post("/count").send({}).expect(400);
-    await request(app).post("/count").send({ text: "hi", word: 123 }).expect(400);
+    await request(app)
+      .post("/count")
+      .send({ text: "hi", word: 123 })
+      .expect(400);
   });
 });
