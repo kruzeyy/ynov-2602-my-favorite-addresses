@@ -2,3 +2,4 @@ db.sqlite
 node_modules
 dist
 docs
+coverage
