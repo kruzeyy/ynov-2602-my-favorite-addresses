@@ -64,6 +64,16 @@ label input:focus {
   margin: 0 0 1rem;
 }
 
+.toast-success {
+  color: #4ade80;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(74, 222, 128, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
 .btn {
   width: 100%;
   padding: 0.7rem 1rem;
