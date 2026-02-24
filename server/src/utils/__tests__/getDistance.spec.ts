@@ -3,7 +3,7 @@ import { getDistance } from '../getDistance';
 
 describe('getDistance', () => {
   test('calcule correctement la distance entre deux points (Haversine)', () => {
-    // Paris (48.8566, 2.3522) → ~5 km au nord
+    
     const paris = { lat: 48.8566, lng: 2.3522 };
     const north = { lat: 48.9016, lng: 2.3522 }; // ~5 km
     expect(getDistance(paris, north)).toBeCloseTo(5, 0);

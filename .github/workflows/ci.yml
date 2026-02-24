@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: 18
 
-      - run: cd server
       - run: npm install
+        working-directory: server
       - run: npm test
+        working-directory: server
