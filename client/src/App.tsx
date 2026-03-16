@@ -23,6 +23,7 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
   // Formulaire ajout d'adresse favorite
   const [searchWord, setSearchWord] = useState("");
@@ -54,6 +55,7 @@ export default function App() {
       if (view === "register") {
         await register(email, password);
         setError("");
+        setSuccessMessage("Inscription réussie ! Vous pouvez vous connecter.");
         setView("login");
         setPassword("");
       } else {
@@ -197,6 +199,9 @@ export default function App() {
             />
           </label>
           {error && <p className="error">{error}</p>}
+          {successMessage && (
+            <p className="toast-success" role="status">{successMessage}</p>
+          )}
           <button type="submit" disabled={loading} className="btn">
             {loading ? "..." : view === "login" ? "Se connecter" : "S'inscrire"}
           </button>
@@ -207,6 +212,7 @@ export default function App() {
           onClick={() => {
             setView(view === "login" ? "register" : "login");
             setError("");
+            setSuccessMessage("");
           }}
         >
           {view === "login" ? "Créer un compte" : "Déjà un compte ? Se connecter"}
